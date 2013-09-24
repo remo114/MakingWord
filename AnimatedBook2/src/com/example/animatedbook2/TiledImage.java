@@ -1,26 +1,28 @@
 package com.example.animatedbook2;
 
+import javax.microedition.khronos.opengles.GL10;
+
+import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.modifier.DelayModifier;
 import org.andengine.entity.modifier.FadeInModifier;
-import org.andengine.entity.modifier.ParallelEntityModifier;
 import org.andengine.entity.modifier.SequenceEntityModifier;
 import org.andengine.entity.modifier.IEntityModifier.IEntityModifierListener;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.andengine.util.color.Color;
 import org.andengine.util.modifier.IModifier;
 
 import android.content.Context;
-import android.content.Entity;
 import android.media.MediaPlayer;
 import android.util.Log;
 
 public class TiledImage extends Sprite{
 	
 	Sprite Letter,s;
-	IEntity entity;
+	IEntity en ;
 	static boolean audioPlay= false;
 	static int ObjNo=0,audio,audioPlayCount=0;
 	static float APPEARING_TIME=3f;
@@ -61,19 +63,23 @@ public class TiledImage extends Sprite{
 				return false;
 			}
 		};
-		s = new Sprite(0f, 0f, BaseActivity.SpriteBgTextureReason, vertexBufferObjectManager);
+		en = new Entity(0,0);
+		//s = new Sprite(pX, pY, BaseActivity.SpriteBgTextureReason, vertexBufferObjectManager);
+		s = new Sprite(0,0, BaseActivity.SpriteBgTextureReason, vertexBufferObjectManager);
 		Letter.setWidth(pHeight);
 		Letter.setHeight(pHeight);		
 		s.setWidth(pHeight);
 		s.setHeight(pHeight);
-		s.setZIndex(-3);
+		s.setZIndex(-1);
+		s.setAlpha(0.8f);
+		//Letter.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		Letter.attachChild(s);
 		
 		s.setVisible(false);
-		Letter.setVisible(false);
-			///		Letter.setVisible(false);///		s.setVisible(false);///		Letter.setWidth(pHeight);///		Letter.setHeight(pHeight);		///		s.setWidth(pHeight);///		s.setHeight(pHeight);///		s.setZIndex(-3)
-//		Letter.attachChild(s);;
-		
+		Letter.setVisible(false);	
+//		en.attachChild(s);
+//		en.attachChild(Letter);
+//		en.setVisible(false);
 		AnimateImage();
 		
 	}
@@ -92,6 +98,7 @@ public class TiledImage extends Sprite{
 								IEntity arg1) {
 						Letter.setVisible(true);
 						s.setVisible(true);
+						//en.setVisible(true);
 						playAudio(R.raw.m_moi);
 						audioPlayCount++;
 						//Log.d("obj", " obj "+ audioPlayCount + " audioPlay "+ audioPlay);
@@ -107,8 +114,9 @@ public class TiledImage extends Sprite{
 		//s.registerEntityModifier(pm);
 		SequenceEntityModifier macch_sm = new SequenceEntityModifier(dMod,macch_fim2);
 		
-	Letter.registerEntityModifier(macch_sm);
-	s.registerEntityModifier(macch_sm);
+		Letter.registerEntityModifier(macch_sm);
+//		s.registerEntityModifier(macch_sm);
+	//	en.registerEntityModifier(macch_sm);
 		
 		
 	}

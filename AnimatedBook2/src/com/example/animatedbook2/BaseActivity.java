@@ -303,6 +303,7 @@ public class BaseActivity extends SimpleBaseGameActivity {
 		TiledImage t1 = new TiledImage(ImagePosX, ImagePosY, ImageWidth , ImageHight, r1, this.getVertexBufferObjectManager(),voice,getApplicationContext());
 		mMainScene.registerTouchArea(t1.Letter);
 		mMainScene.attachChild(t1.Letter);
+		//mMainScene.sortChildren();
 
 		t1.detachSelf();
 	}
