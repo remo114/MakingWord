@@ -1,12 +1,15 @@
 package com.example.test2;
 
-import java.sql.NClob;
 import java.util.ArrayList;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.andengine.entity.Entity;
+import org.andengine.entity.IEntity;
+import org.andengine.entity.primitive.Rectangle;
+import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
@@ -22,6 +25,7 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.BaseActivity;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
+import org.andengine.util.color.Color;
 
 import android.util.Log;
 import android.view.Display;
@@ -30,15 +34,28 @@ public class MainActivity extends SimpleBaseGameActivity {
 
 	public static int CAMERA_WIDTH;
 	public static int CAMERA_HEIGHT;
-	public Scene mCurrentScene;
+	public static Scene mCurrentScene;
+	public static Scene mCurrentScene1;
 	public static BaseActivity instance;
 	public Camera mCamera;
 	
+	
+	//public static Entity en1 = new Entity();
+	
+	
 	public Sprite BgSprite;
 	public static Sprite sprite1,sprite2;
-	public static ArrayList<Spriteobject> SpriteList;
-	public static VertexBufferObjectManager vobm;
+	public static ArrayList<sprite2> SpriteList;
+	public static VertexBufferObjectManager vobm;	
 	
+	public static sprite2 sp1;
+	public static sprite2 sp2;
+	public static sprite2 sp3;
+	public static sprite2 spg;
+	
+	//public static GroupSprite myRectangle1;
+	/*GroupSprite myRectangle2;
+	GroupSprite myRectangle3;*/
 	
 	public static BuildableBitmapTextureAtlas BgBuildableBitmapTextureAtlas;
 	public static ITextureRegion BgTextureReason;
@@ -54,7 +71,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 		CAMERA_WIDTH = display.getWidth();
 		instance = this;
 		//vobm = getVertexBufferObjectManager();
-		SpriteList = new ArrayList<Spriteobject>();
+		SpriteList = new ArrayList<sprite2>();
 	    mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 	    final EngineOptions engOps = new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), mCamera);
 		engOps.getTouchOptions().setNeedsMultiTouch(true);
@@ -92,17 +109,39 @@ public class MainActivity extends SimpleBaseGameActivity {
 	    BgSprite.setHeight(CAMERA_HEIGHT);
 		BgSprite.setWidth(CAMERA_WIDTH);
 		mCurrentScene.attachChild(BgSprite);
+		mCurrentScene.setUserData("MainScene");
 		
-		for (int i = 0; i<2; i++){
-			
-			Spriteobject sp1 = new Spriteobject(10f, 10f, 100f, 100f, Letter1TextureReason, getVertexBufferObjectManager(),1);
-			sprite1 = sp1.sprite1;
-			sp1.sprite1.setUserData(i);
-			mCurrentScene.registerTouchArea(sp1.sprite1);
-			mCurrentScene.attachChild(sp1.sprite1);
-			MainActivity.SpriteList.add(sp1);			
-		}
-		MainActivity.SpriteList.get(0).attachChild(MainActivity.SpriteList.get(1));
+		//myRectangle1 = new GroupSprite(110f, 110f, 50f, 30f, this.getVertexBufferObjectManager());
+		//myRectangle1.myRectangle.attachChild(en1);
+		//en1.setUserData("Entity1");
+//		mCurrentScene.attachChild(myRectangle1.myRectangle);
+//		mCurrentScene.registerTouchArea(myRectangle1.myRectangle);
+		
+		
+		sp1 = new sprite2(10f, 10f, 100f, 100f, Letter1TextureReason, getVertexBufferObjectManager(),1);
+		sp2 = new sprite2(140f, 111f, 100f, 100f, Letter1TextureReason, getVertexBufferObjectManager(),1);
+		sp3 = new sprite2(230f, 111f, 100f, 100f, Letter1TextureReason, getVertexBufferObjectManager(),1);
+		
+		spg = new sprite2(430f, 111f, 180f, 180f, Letter2TextureReason, getVertexBufferObjectManager(),1);
+		spg.sprite1.setAlpha(0.5f);
+		
+		sp1.sprite1.setUserData("sprite1");
+		sp2.sprite1.setUserData("sprite2");
+		sp3.sprite1.setUserData("sprite3");
+		spg.sprite1.setUserData("sprite4");
+		
+		SpriteList.add(sp1);
+		SpriteList.add(sp2);
+		SpriteList.add(sp3);
+		SpriteList.add(spg);
+		
+		mCurrentScene.attachChild(sp1.sprite1);
+		mCurrentScene.attachChild(sp2.sprite1);
+		mCurrentScene.attachChild(sp3.sprite1);
+		mCurrentScene.attachChild(spg.sprite1);
+		
+		//mCurrentScene.sortChildren();
+		//mCurrentScene.attachChild(mCurrentScene1);
 		
 		return mCurrentScene;
 	}
@@ -112,20 +151,38 @@ public class MainActivity extends SimpleBaseGameActivity {
 		if (MainActivity.SpriteList.contains(s)){
 			return MainActivity.SpriteList.indexOf(s);
 		}
-		return 0;
+		return 0; 
 	}
-	public static Sprite getColliedSprite(Spriteobject sp){
-	    for(int i = 0;  i< MainActivity.SpriteList.size();i++)
+	public static sprite2 getColliedSprite(Sprite sp){
+	    for(int i = 0;  i< SpriteList.size();i++)
 	    {
-	    	
-	       if(MainActivity.SpriteList.get(i).collidesWith(sp))
+	    	//Log.d("chk colution ", "Size " + SpriteList.size() +"array list : " + SpriteList.get(i).sprite1.getUserData());	    	
+	       if(SpriteList.get(i).sprite1.collidesWith(sp) && !(SpriteList.get(i).sprite1).equals(sp))
 	       	{
-	    	   return MainActivity.SpriteList.get(i);
+	    	  // Log.d("chk colution ", "input sprite: " + sp.getUserData() +" array list sprite : " + SpriteList.get(i).sprite1.getUserData());
+    		   return SpriteList.get(i);
 	        }
-	     
+	       else if(SpriteList.get(i).sprite1.collidesWith(sp) && !(SpriteList.get(i).sprite1).equals(sp))
+	       	{
+	    	  // Log.d("chk colution ", "input sprite: " + sp.getUserData() +" array list sprite : " + SpriteList.get(i).sprite1.getUserData());
+	    	   return SpriteList.get(i);
+	        }
 	     }
 
-		return sp;
+		return null;
+	}
+	public static boolean isChildOfEntity(Sprite en, Sprite s) {
+		//Log.d("isChildOfEntity", "Method, No of child : " + en.getChildCount() + "Incoming sprite: " + s.getUserData() ); 
+		//if(s.equals(null)) return false;
+		if(en.getChildCount()==0) return true;
+		//Log.d("isChildOfEntity", "After zeero chk");
+	    for(int i = 0; i < en.getChildCount(); i++){
+	    	//Log.d("isChildOfEntity", "Inside for , I: " + i);
+	    	if(en.getChildByIndex(i).equals(s)){
+	    		return false;
+	    	}
+	    }
+	    return true;
 	}
 	public static void updatePos(Spriteobject s, int x, int y) {
 	    s.updatePosition(x, y);
