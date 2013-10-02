@@ -123,7 +123,15 @@ public class MainActivity extends SimpleBaseGameActivity {
 		sp3 = new sprite2(230f, 111f, 100f, 100f, Letter1TextureReason, getVertexBufferObjectManager(),1);
 		
 		spg = new sprite2(430f, 111f, 180f, 180f, Letter2TextureReason, getVertexBufferObjectManager(),1);
-		spg.sprite1.setAlpha(0.5f);
+		spg.sprite1.setAlpha(0.1f);
+		spg.container = true;
+		spg.sprite1.setZIndex(5);
+		
+		sp1.sp2 = sp1;
+		sp2.sp2 = sp2;
+		sp3.sp2 = sp3;
+		spg.sp2 = spg;
+		
 		
 		sp1.sprite1.setUserData("sprite1");
 		sp2.sprite1.setUserData("sprite2");
@@ -140,7 +148,7 @@ public class MainActivity extends SimpleBaseGameActivity {
 		mCurrentScene.attachChild(sp3.sprite1);
 		mCurrentScene.attachChild(spg.sprite1);
 		
-		//mCurrentScene.sortChildren();
+		mCurrentScene.sortChildren();
 		//mCurrentScene.attachChild(mCurrentScene1);
 		
 		return mCurrentScene;
@@ -171,18 +179,23 @@ public class MainActivity extends SimpleBaseGameActivity {
 
 		return null;
 	}
-	public static boolean isChildOfEntity(Sprite en, Sprite s) {
-		//Log.d("isChildOfEntity", "Method, No of child : " + en.getChildCount() + "Incoming sprite: " + s.getUserData() ); 
-		//if(s.equals(null)) return false;
-		if(en.getChildCount()==0) return true;
-		//Log.d("isChildOfEntity", "After zeero chk");
-	    for(int i = 0; i < en.getChildCount(); i++){
-	    	//Log.d("isChildOfEntity", "Inside for , I: " + i);
-	    	if(en.getChildByIndex(i).equals(s)){
-	    		return false;
-	    	}
-	    }
-	    return true;
+	public static void makeGroup(sprite2 s1){
+		mCurrentScene.detachChild(s1.sprite1);
+		spg.sprite1.attachChild(s1.sprite1);
+		s1.frizz = true;
+		//if(spg.sprite1.getChildCount() !=0 ){
+			s1.sprite1.setPosition(spg.sprite1.getChildCount()*100, spg.sprite1.getChildCount()*100);
+			spg.setWidth(spg.sprite1.getChildCount()*100);
+		//}
+		s1.sprite1.setPosition(0f, 0f);
+		
+	}
+	public static void reposition(){
+		for(int i=0; i < spg.sprite1.getChildCount(); i++ ){
+			spg.getChildByIndex(i).setPosition(2*100, 0);
+			spg.setWidth(spg.sprite1.getChildCount()*100);
+		}
+		
 	}
 	public static void updatePos(Spriteobject s, int x, int y) {
 	    s.updatePosition(x, y);
