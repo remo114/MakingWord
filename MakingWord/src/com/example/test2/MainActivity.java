@@ -47,11 +47,12 @@ public class MainActivity extends SimpleBaseGameActivity {
 	public static Sprite sprite1,sprite2;
 	public static ArrayList<sprite2> SpriteList;
 	public static VertexBufferObjectManager vobm;	
+	public static ArrayList<sprite3> SpriteContainer;
+	public static ArrayList<sprite3> SpriteContainer1;
 	
-	public static sprite2 sp1;
-	public static sprite2 sp2;
-	public static sprite2 sp3;
-	public static sprite2 spg;
+	public static sprite2 sp1,sp2,sp3,spg;
+	public static sprite3 sp3a,sp3b,sp3c,sp3d;
+	
 	
 	//public static GroupSprite myRectangle1;
 	/*GroupSprite myRectangle2;
@@ -72,6 +73,8 @@ public class MainActivity extends SimpleBaseGameActivity {
 		instance = this;
 		//vobm = getVertexBufferObjectManager();
 		SpriteList = new ArrayList<sprite2>();
+		SpriteContainer = new ArrayList<sprite3>();
+		SpriteContainer1 = new ArrayList<sprite3>();
 	    mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 	    final EngineOptions engOps = new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), mCamera);
 		engOps.getTouchOptions().setNeedsMultiTouch(true);
@@ -117,8 +120,25 @@ public class MainActivity extends SimpleBaseGameActivity {
 //		mCurrentScene.attachChild(myRectangle1.myRectangle);
 //		mCurrentScene.registerTouchArea(myRectangle1.myRectangle);
 		
+		sp3a = new sprite3(30f, 10f, 100f, 100f, Letter1TextureReason, getVertexBufferObjectManager(),1);
+		sp3b = new sprite3(410f, 170f, 100f, 100f, Letter1TextureReason, getVertexBufferObjectManager(),1);
+		sp3c = new sprite3(560f, 210f, 100f, 100f, Letter1TextureReason, getVertexBufferObjectManager(),1);
 		
-		sp1 = new sprite2(10f, 10f, 100f, 100f, Letter1TextureReason, getVertexBufferObjectManager(),1);
+		sp3a.s3 = sp3a;
+		sp3b.s3 = sp3b;
+		sp3c.s3 = sp3c;
+		
+		sp3a.sprite1.setUserData("sprite1");
+		sp3b.sprite1.setUserData("sprite2");
+		sp3c.sprite1.setUserData("sprite3");
+		
+		SpriteContainer1.add(sp3a);
+		SpriteContainer1.add(sp3b);
+		SpriteContainer1.add(sp3c);
+		
+		sp3b.single = false;
+		
+		/*sp1 = new sprite2(10f, 10f, 100f, 100f, Letter1TextureReason, getVertexBufferObjectManager(),1);
 		sp2 = new sprite2(140f, 111f, 100f, 100f, Letter1TextureReason, getVertexBufferObjectManager(),1);
 		sp3 = new sprite2(230f, 111f, 100f, 100f, Letter1TextureReason, getVertexBufferObjectManager(),1);
 		
@@ -148,8 +168,10 @@ public class MainActivity extends SimpleBaseGameActivity {
 		mCurrentScene.attachChild(sp3.sprite1);
 		mCurrentScene.attachChild(spg.sprite1);
 		
-		mCurrentScene.sortChildren();
-		//mCurrentScene.attachChild(mCurrentScene1);
+		mCurrentScene.sortChildren();*/
+		mCurrentScene.attachChild(sp3a.sprite1);
+		mCurrentScene.attachChild(sp3b.sprite1);
+		mCurrentScene.attachChild(sp3c.sprite1);
 		
 		return mCurrentScene;
 	}
@@ -160,6 +182,25 @@ public class MainActivity extends SimpleBaseGameActivity {
 			return MainActivity.SpriteList.indexOf(s);
 		}
 		return 0; 
+	}
+	
+	public static sprite3 getColliedobj(Sprite sp){
+	    for(int i = 0;  i< SpriteContainer1.size();i++)
+	    {
+	    	//Log.d("chk colution ", "Size " + SpriteList.size() +"array list : " + SpriteList.get(i).sprite1.getUserData());	    	
+	       if(SpriteContainer1.get(i).sprite1.collidesWith(sp) && !(SpriteContainer1.get(i).sprite1).equals(sp))
+	       	{
+	    	  // Log.d("chk colution ", "input sprite: " + sp.getUserData() +" array list sprite : " + SpriteList.get(i).sprite1.getUserData());
+    		   return SpriteContainer1.get(i);
+	        }
+	       else if(SpriteContainer1.get(i).sprite1.collidesWith(sp) && !(SpriteContainer1.get(i).sprite1).equals(sp))
+	       	{
+	    	  // Log.d("chk colution ", "input sprite: " + sp.getUserData() +" array list sprite : " + SpriteList.get(i).sprite1.getUserData());
+	    	   return SpriteContainer1.get(i);
+	        }
+	     }
+
+		return null;
 	}
 	public static sprite2 getColliedSprite(Sprite sp){
 	    for(int i = 0;  i< SpriteList.size();i++)

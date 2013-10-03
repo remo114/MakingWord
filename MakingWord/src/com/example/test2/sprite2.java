@@ -46,14 +46,17 @@ public sprite2(float pX, float pY, float pWidth, float pHeight,ITextureRegion pT
 										MainActivity.mCurrentScene.detachChild(sp2.sprite1);
 										MainActivity.spg.sprite1.attachChild(sp2.sprite1);
 										sp2.frizz = true;
+										sp2.sprite1.setZIndex(-1);
 										
 										sp2.sprite1.setPosition(MainActivity.spg.sprite1.getChildCount()*100,0f);
 										MainActivity.spg.setWidth(MainActivity.spg.sprite1.getChildCount()*100);
 										//MainActivity.makeGroup(sp2);
 										
+										
 										MainActivity.mCurrentScene.detachChild(colution.sprite1);
 										MainActivity.spg.sprite1.attachChild(colution.sprite1);
 										colution.frizz = true;
+										colution.sprite1.setZIndex(-1);
 										
 										colution.sprite1.setPosition(MainActivity.spg.sprite1.getChildCount()*100,0f);
 										MainActivity.spg.setWidth(MainActivity.spg.sprite1.getChildCount()*100);
@@ -63,6 +66,7 @@ public sprite2(float pX, float pY, float pWidth, float pHeight,ITextureRegion pT
 										MainActivity.mCurrentScene.detachChild(sp2.sprite1);
 										MainActivity.spg.sprite1.attachChild(sp2.sprite1);
 										sp2.frizz = true;
+										sp2.sprite1.setZIndex(-1);
 										
 										sp2.sprite1.setPosition(MainActivity.spg.sprite1.getChildCount()*100,0f);
 										MainActivity.spg.setWidth(MainActivity.spg.sprite1.getChildCount()*100);
@@ -77,6 +81,7 @@ public sprite2(float pX, float pY, float pWidth, float pHeight,ITextureRegion pT
 				break;
 			}
 			case TouchEvent.ACTION_UP: {
+				MainActivity.spg.sprite1.setZIndex(5);
 				MainActivity.spg.sprite1.sortChildren();
 				Log.d("Sprite2", "parrent " + sprite1.getParent().getUserData() + "Child Z Index " + MainActivity.spg.sprite1.getZIndex());
 				if(sprite1.getParent().getUserData().equals("MainScene")){
